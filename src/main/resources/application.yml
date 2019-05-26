@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/forum?serverTimezone=Asia/Shanghai&characterEncoding=utf8
+    username: root
+    password: root
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    username: 1015683970@qq.com
+    password: qjscwsgmfrxobfhf
+    default-encoding: utf-8
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+    properties.mail.smtp.port: 25
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
