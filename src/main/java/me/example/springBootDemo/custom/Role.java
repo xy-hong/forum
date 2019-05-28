@@ -10,6 +10,8 @@ public class Role {
     public static byte USER = 1;
     public static byte BLACKLIST = 2;
 
+    public static String[] roles = { "ADMIN", "USER", "BLACKLIST"};
+
 }
 
 class Test{

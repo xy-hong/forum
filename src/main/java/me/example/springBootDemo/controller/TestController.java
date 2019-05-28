@@ -14,4 +14,13 @@ public class TestController {
         result.setMessage("测试成功");
         return result;
     }
+
+    @RequestMapping("/test")
+    public Result test(String id){
+        Result result = new Result();
+        result.setMessage("测试成功");
+        result.setData(id);
+        return result;
+    }
+
 }

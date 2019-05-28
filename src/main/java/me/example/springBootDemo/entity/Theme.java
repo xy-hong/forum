@@ -1,6 +1,8 @@
 package me.example.springBootDemo.entity;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,7 +21,7 @@ import lombok.experimental.Accessors;
 public class Theme implements Serializable {
 
 private static final long serialVersionUID=1L;
-
+    @TableId
     private Integer themeId;
 
     private String themeName;

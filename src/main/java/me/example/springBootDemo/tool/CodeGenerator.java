@@ -34,7 +34,7 @@ public class CodeGenerator {
 
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig.setEntityLombokModel(true);
-        strategyConfig.setInclude("theme","post");
+        strategyConfig.setInclude("user","user_information","post","post_content","post_comment","report","theme");
         strategyConfig.setNaming(NamingStrategy.underline_to_camel);
         strategyConfig.setColumnNaming(NamingStrategy.underline_to_camel);
         generator.setStrategy(strategyConfig);

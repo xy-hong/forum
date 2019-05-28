@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.example.springBootDemo.entity.Post;
 import me.example.springBootDemo.mapper.PostMapper;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class PostService {
         return postPage.getRecords();
     }
 
+    @RequiresRoles("ADMIN")
     public int addPost(Post post){
         return  postMapper.insert(post);
     }

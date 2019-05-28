@@ -51,7 +51,7 @@ public class UserInformationService {
         String originalFilename = file.getOriginalFilename();
         String fileName = originalFilename.replaceAll("[a-zA-Z0-9]+[.]",id+"_head\\.");
         //File file = new File();
-        File file1 = new File("F://springImage/"+fileName);
+        File file1 = new File("F://springImage/head/"+fileName);
         try {
             file.transferTo(file1);
             UserInformation userInformation = mapper.selectById(id);

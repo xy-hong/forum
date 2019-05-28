@@ -1,9 +1,15 @@
 package me.example.springBootDemo.controller;
 
 import me.example.springBootDemo.custom.Result;
+import me.example.springBootDemo.custom.Role;
 import me.example.springBootDemo.custom.Tip;
+import me.example.springBootDemo.entity.User;
 import me.example.springBootDemo.service.IUserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
+import java.lang.reflect.Field;
 
 @RestController
 public class UserController {
@@ -22,7 +29,17 @@ public class UserController {
     @PostMapping("/login")
     public Result login(String id, String password) throws AuthenticationException {
         if ( Tip.LOGIN_SUCCESS.equals(service.login(id, password)) ){
-            return Result.successResult(Tip.LOGIN_SUCCESS);
+            //将用户角色作为data返回，供前端渲染不同页面
+            Subject subject = SecurityUtils.getSubject();
+            String role = null;
+            for(String r: Role.roles){
+                if (subject.hasRole(r)){
+                    role = r;
+                    break;
+                }
+            }
+
+            return new Result(1,Tip.LOGIN_SUCCESS, role);
         }else {
             return Result.failResult(Tip.LOGIN_FAIL);
         }
@@ -64,13 +81,14 @@ public class UserController {
     @GetMapping("/logout")
     public Result logout(){
         service.logout();
-        return new Result();
+        return Result.successResult(Tip.LOGOUT_SUCCESS);
     }
 
-    @GetMapping("/Email")
+    @PostMapping("/Email")
     public Result getEmailVerifyCode(String toEmail) throws MessagingException {
         service.getEmailVerifyCode(toEmail);
         return Result.successResult(Tip.VERIFY_CODE_SUCCESS);
     }
+
 
 }

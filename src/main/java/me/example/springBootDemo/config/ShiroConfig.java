@@ -34,14 +34,14 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-    /*@Bean(value = "sessionIdCookie")
+    @Bean(value = "sessionIdCookie")
     public Cookie sessionIdCookie(){
         SimpleCookie cookie = new SimpleCookie();
         cookie.setHttpOnly(true);
         cookie.setName("sid");
         cookie.setMaxAge(3600*24);
         return cookie;
-    }*/
+    }
 
     @Bean("rememberMeCookie")
     public Cookie rememberMeCookie(){
@@ -62,27 +62,28 @@ public class ShiroConfig {
     @Bean
     public SessionManager sessionManager(){
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        //sessionManager.setSessionIdCookieEnabled(true);
+        sessionManager.setSessionIdCookieEnabled(true);
         //禁用会话调度器（负责清除服务器过期session）
-        sessionManager.setSessionValidationSchedulerEnabled(false);
-        //sessionManager.setSessionIdCookie(sessionIdCookie);
+       // sessionManager.setSessionValidationSchedulerEnabled(false);
+        sessionManager.setSessionIdCookie(sessionIdCookie());
         return sessionManager;
     }
 
+    /* 下面两个bean静止服务器创建session
     @Bean
     public SubjectDAO subjectDAO(){
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         subjectDAO.setSessionStorageEvaluator(sessionStorageEvaluator());
         return subjectDAO;
-    }
+    }*/
 
-    @Bean
+    /*@Bean
     public SessionStorageEvaluator sessionStorageEvaluator(){
         DefaultSessionStorageEvaluator sessionStorageEvaluator = new DefaultSessionStorageEvaluator();
         //禁止创建session
         sessionStorageEvaluator.setSessionStorageEnabled(false);
         return sessionStorageEvaluator;
-    }
+    }*/
 
     @Bean
     public HashedCredentialsMatcher credentialsMatcher(){
@@ -96,13 +97,12 @@ public class ShiroConfig {
     @Bean
     public SecurityManager securityManager(DBShiroRealm dbShiroRealm,
                                             SessionManager sessionManager,
-                                            RememberMeManager rememberMeManager,
-                                            SubjectDAO subjectDAO){
+                                            RememberMeManager rememberMeManager){
 
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setSessionManager(sessionManager);
         securityManager.setRealm(dbShiroRealm);
-        securityManager.setSubjectDAO(subjectDAO);
+        //securityManager.setSubjectDAO(subjectDAO);
         securityManager.setRememberMeManager(rememberMeManager);
         //SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
